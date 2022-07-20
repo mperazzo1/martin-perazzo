@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,12 +26,12 @@ public class Message {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty
     @ManyToOne
+    @NotNull
     private User sender;
 
-    @Column(name="timestamp", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date timestamp;
+    @Column(name="timestamp")
+    private Date timestamp= new Date();
 
     @NotEmpty
     private String messageString;
