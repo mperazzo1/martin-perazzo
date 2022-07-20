@@ -1,0 +1,39 @@
+target/
+
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+
+# Custom Beanstalk workaround to handle settings per environment/profile
+# These will actually be links to real files .ebextensions/*.<PROFILE>.config.yaml
+.ebextensions/*.custom.config
+
+# Only add config.yml to git, to allow CodeBuild to deploy successfully using eb client
+.elasticbeanstalk/*
+!.elasticbeanstalk/config.yml
+
+# Local flyway configuration
+flyway.conf

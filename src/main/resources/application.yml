@@ -1,0 +1,43 @@
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+    converters:
+      preferred-json-mapper: jackson
+  web:
+    resources:
+      add-mappings: false
+  jackson:
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: true
+    mapper:
+      SORT_PROPERTIES_ALPHABETICALLY: true
+    serialization:
+      ORDER_MAP_ENTRIES_BY_KEYS: true
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      # "create" would be OK for localdebug, but we use migrations for other profiles
+      # setting "validate" here lets us validate the flyway migrations locally
+      ddl-auto: "create"
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  datasource:
+    initialization-mode: always
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/whatsappdb
+    username: postgres
+    password: mysecretpassword
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    
+    
+   
+  
