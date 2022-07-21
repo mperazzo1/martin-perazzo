@@ -73,4 +73,8 @@ public class ChatService {
                 .forEach(recipientId -> pushService.push(chatId, senderId, recipientId, message));
         return newMessage;
     }
+
+    public void deleteChat(Integer chatId) {
+        chatRepository.deleteById(chatId);
+    }
 }

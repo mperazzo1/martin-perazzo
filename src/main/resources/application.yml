@@ -18,9 +18,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
-      # "create" would be OK for localdebug, but we use migrations for other profiles
-      # setting "validate" here lets us validate the flyway migrations locally
-      ddl-auto: "validate"
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -28,7 +26,7 @@ spring:
           lob:
             non_contextual_creation: true
   datasource:
-    initialization-mode: "never"
+    initialization-mode: never
     platform: postgres
     url: jdbc:postgresql://localhost:5432/whatsappdb
     username: postgres

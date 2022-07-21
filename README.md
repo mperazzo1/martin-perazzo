@@ -8,6 +8,7 @@ A simple Whatsapp like service
     - [Database](#database)
 - [Running the application](#running-the-application)
 - [Testing the application](#testing-the-application)
+- [OpenApi documentation](#openapi-documentation)
 
 ## Setup
 
@@ -65,3 +66,7 @@ How do I run tests?
 
 1. `mvn verify` -> all tests
 
+
+## OpenApi Documentation
+
+You can find limited OpenApi documentation at `/swagger-ui/index.html?configUrl=/api-docs/swagger-config`
