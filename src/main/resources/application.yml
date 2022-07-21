@@ -37,6 +37,11 @@ spring:
 springdoc:
   api-docs:
     path: /api-docs
+
+custom:
+  push:
+    server: http://localhost:8081
+    path: push
     
     
    

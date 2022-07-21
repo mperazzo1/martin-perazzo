@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.whatsapp.api.error.RecordNotFoundException;
 import com.whatsapp.api.model.Chat;
 import com.whatsapp.api.model.Message;
 import com.whatsapp.api.model.User;
@@ -20,6 +21,8 @@ public class ChatService {
 
     private ChatRepository chatRepository;
 
+    private PushService pushService;
+
     @Autowired
     public void setUsersRepository(UsersRepository repository){
         userRepository= repository;
@@ -28,6 +31,12 @@ public class ChatService {
     @Autowired
     public void setChatRepository(ChatRepository repository){
         chatRepository=repository;
+    }
+
+
+    @Autowired
+    public void setPushService(PushService pushService){
+        this.pushService = pushService;
     }
 
     public Chat createChat(String chatName, List<Integer> userIds){
@@ -48,11 +57,14 @@ public class ChatService {
     @Transactional
     public Message sendMessage(Integer chatId, Integer senderId, String message) {
         Message newMessage = new Message();
-        Chat chat = this.chatRepository.findById(chatId).orElseThrow();
-        User sender = this.userRepository.findById(senderId).orElseThrow();
+        Chat chat = this.chatRepository.findById(chatId).orElseThrow(()-> new RecordNotFoundException("Chat", chatId));
+        User sender = this.userRepository.findById(senderId).orElseThrow(()-> new RecordNotFoundException("User", senderId));
         newMessage.setMessageString(message);
         newMessage.setSender(sender);
         chat.getMessages().add(newMessage);
+        chat.getUsers().stream().map(user-> user.getId()).filter(id->!id.equals(senderId)).forEach(recipientId-> 
+            pushService.push(chatId, senderId, recipientId, message)
+        );
         return newMessage;
     }
 }
