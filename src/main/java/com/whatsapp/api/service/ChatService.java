@@ -58,11 +58,11 @@ public class ChatService {
     public Message sendMessage(Integer chatId, Integer senderId, String message) {
         Message newMessage = new Message();
         Chat chat = this.chatRepository.findById(chatId).orElseThrow(()-> new RecordNotFoundException("Chat", chatId));
-        User sender = this.userRepository.findById(senderId).orElseThrow(()-> new RecordNotFoundException("User", senderId));
+        User sender = chat.getUsers().stream().filter(user-> user.getId().equals(senderId)).findAny().orElseThrow(()-> new RecordNotFoundException("User", senderId));
         newMessage.setMessageString(message);
         newMessage.setSender(sender);
         chat.getMessages().add(newMessage);
-        chat.getUsers().stream().map(user-> user.getId()).filter(id->!id.equals(senderId)).forEach(recipientId-> 
+        chat.getUsers().stream().map(User::getId).filter(id->!id.equals(senderId)).forEach(recipientId-> 
             pushService.push(chatId, senderId, recipientId, message)
         );
         return newMessage;

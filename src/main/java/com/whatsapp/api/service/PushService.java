@@ -24,7 +24,7 @@ public class PushService {
         restTemplate = new RestTemplateBuilder().build();
     }
 
-    public void push(int chatId, int sender, int recipient, String message) {
+    public void push(Integer chatId, Integer sender, Integer recipient, String message) {
         restTemplate.exchange(String.format("%s/%s", configuration.getServer(), configuration.getPath()), HttpMethod.POST,
                 new HttpEntity<>(new PushRequest(chatId, sender, recipient, message)), HashMap.class);
     }
