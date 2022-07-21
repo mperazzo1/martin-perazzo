@@ -13,7 +13,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class PushService {
     @Autowired
     private PushConfiguration configuration;
@@ -25,7 +28,11 @@ public class PushService {
     }
 
     public void push(Integer chatId, Integer sender, Integer recipient, String message) {
+        try{
         restTemplate.exchange(String.format("%s/%s", configuration.getServer(), configuration.getPath()), HttpMethod.POST,
                 new HttpEntity<>(new PushRequest(chatId, sender, recipient, message)), HashMap.class);
+        }catch(Exception ex){
+            log.warn("Unexpected error while attempting to push", ex.getMessage(), ex.fillInStackTrace());
+        }
     }
 }
